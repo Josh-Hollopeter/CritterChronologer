@@ -44,10 +44,10 @@ public class CritterFunctionalTest {
 
     @Test
     public void testCreateCustomer(){
-        CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        Customer customer = createCustomer();
+        Customer newCustomer = userController.saveCustomer(customer);
         CustomerDTO retrievedCustomer = userController.getAllCustomers().get(0);
-        Assertions.assertEquals(newCustomer.getName(), customerDTO.getName());
+        Assertions.assertEquals(newCustomer.getName(), customer.getName());
         Assertions.assertEquals(newCustomer.getId(), retrievedCustomer.getId());
         Assertions.assertTrue(retrievedCustomer.getId() > 0);
     }
@@ -64,8 +64,8 @@ public class CritterFunctionalTest {
 
     @Test
     public void testAddPetsToCustomer() {
-        CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        Customer customer = createCustomer();
+        Customer newCustomer = userController.saveCustomer(customer);
 
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
@@ -89,8 +89,8 @@ public class CritterFunctionalTest {
 
     @Test
     public void testFindPetsByOwner() {
-        CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        Customer customer = createCustomer();
+        Customer newCustomer = userController.saveCustomer(customer);
 
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
@@ -107,8 +107,8 @@ public class CritterFunctionalTest {
 
     @Test
     public void testFindOwnerByPet() {
-        CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        Customer customer = createCustomer();
+        Customer newCustomer = userController.saveCustomer(customer);
 
         PetDTO petDTO = createPetDTO();
         petDTO.setOwnerId(newCustomer.getId());
@@ -174,7 +174,7 @@ public class CritterFunctionalTest {
         EmployeeDTO employeeTemp = createEmployeeDTO();
         employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
         EmployeeDTO employeeDTO = userController.saveEmployee(employeeTemp);
-        CustomerDTO customerDTO = userController.saveCustomer(createCustomerDTO());
+        Customer customerDTO = userController.saveCustomer(createCustomer());
         PetDTO petTemp = createPetDTO();
         petTemp.setOwnerId(customerDTO.getId());
         PetDTO petDTO = petController.savePet(petTemp);
@@ -247,11 +247,11 @@ public class CritterFunctionalTest {
         employeeDTO.setSkills(Sets.newHashSet(EmployeeSkill.FEEDING, EmployeeSkill.PETTING));
         return employeeDTO;
     }
-    private static CustomerDTO createCustomerDTO() {
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setName("TestEmployee");
-        customerDTO.setPhoneNumber("123-456-789");
-        return customerDTO;
+    private static Customer createCustomer() {
+        Customer customer = new Customer();
+        customer.setName("TestEmployee");
+        customer.setPhoneNumber("123-456-789");
+        return customer;
     }
 
     private static PetDTO createPetDTO() {
@@ -285,7 +285,7 @@ public class CritterFunctionalTest {
                     e.setDaysAvailable(Sets.newHashSet(date.getDayOfWeek()));
                     return userController.saveEmployee(e).getId();
                 }).collect(Collectors.toList());
-        CustomerDTO cust = userController.saveCustomer(createCustomerDTO());
+        Customer cust = userController.saveCustomer(createCustomer());
         List<Long> petIds = IntStream.range(0, numPets)
                 .mapToObj(i -> createPetDTO())
                 .map(p -> {
