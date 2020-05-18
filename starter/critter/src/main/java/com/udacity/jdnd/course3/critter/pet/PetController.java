@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,11 +12,12 @@ import java.util.List;
 @RequestMapping("/pet")
 public class PetController {
 
-    @PostMapping
-    public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        throw new UnsupportedOperationException();
+    @Autowired
+    PetService petService;
 
-        // comment
+    @PostMapping
+    public Pet savePet(@RequestBody Pet pet) {
+        return petService.savePet(pet);
     }
 
     @GetMapping("/{petId}")
@@ -29,7 +31,7 @@ public class PetController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
+    public List<Pet> getPetsByOwner(@PathVariable long ownerId) {
+        return petService.getPetsByOwnerId(ownerId);
     }
 }
