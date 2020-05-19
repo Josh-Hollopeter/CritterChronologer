@@ -69,13 +69,13 @@ public class CritterFunctionalTest {
         Customer newCustomer = userController.saveCustomer(customer);
 
         Pet pet = createPet();
-        pet.setOwnerId(newCustomer.getId());
+        pet.setOwner(newCustomer);
         Pet newPet = petController.savePet(pet);
 
         //make sure pet contains customer id
         Pet retrievedPet = petController.getPet(newPet.getId());
         Assertions.assertEquals(retrievedPet.getId(), newPet.getId());
-        Assertions.assertEquals(retrievedPet.getOwnerId(), newCustomer.getId());
+        Assertions.assertEquals(retrievedPet.getOwner().getId(), newCustomer.getId());
 
         //make sure you can retrieve pets by owner
         List<Pet> pets = petController.getPetsByOwner(newCustomer.getId());
@@ -94,7 +94,7 @@ public class CritterFunctionalTest {
         Customer newCustomer = userController.saveCustomer(customer);
 
         Pet pet = createPet();
-        pet.setOwnerId(newCustomer.getId());
+        pet.setOwner(newCustomer);
         Pet newPet = petController.savePet(pet);
         pet.setType("Dog");
         pet.setName("DogName");
@@ -102,7 +102,7 @@ public class CritterFunctionalTest {
 
         List<Pet> pets = petController.getPetsByOwner(newCustomer.getId());
         Assertions.assertNotEquals(pets.size(), 0);
-        Assertions.assertEquals(pets.get(0).getOwnerId(), newCustomer.getId());
+        Assertions.assertEquals(pets.get(0).getOwner().getId(), newCustomer.getId());
         Assertions.assertEquals(pets.get(0).getId(), newPet.getId());
     }
 
@@ -112,12 +112,12 @@ public class CritterFunctionalTest {
         Customer newCustomer = userController.saveCustomer(customer);
 
         Pet pet = createPet();
-        pet.setOwnerId(newCustomer.getId());
+        pet.setOwner(newCustomer);
         Pet newPet = petController.savePet(pet);
 
-        CustomerDTO owner = userController.getOwnerByPet(newPet.getId());
+        Customer owner = userController.getOwnerByPet(newPet.getId());
         Assertions.assertEquals(owner.getId(), newCustomer.getId());
-        Assertions.assertEquals(owner.getPetIds().get(0), newPet.getId());
+//        Assertions.assertEquals(owner.getPetI.get(0), newPet.getId());
     }
 
     @Test
@@ -177,7 +177,7 @@ public class CritterFunctionalTest {
         Employee employee = userController.saveEmployee(employeeTemp);
         Customer customer = userController.saveCustomer(createCustomer());
         Pet petTemp = createPet();
-        petTemp.setOwnerId(customer.getId());
+        petTemp.setOwner(customer);
         Pet pet = petController.savePet(petTemp);
 
         LocalDate date = LocalDate.of(2019, 12, 25);

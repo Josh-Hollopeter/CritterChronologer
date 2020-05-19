@@ -1,12 +1,10 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.user.Customer;
+
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Pet {
@@ -19,7 +17,9 @@ public class Pet {
 
 	private String name;
 
-	private long ownerId;
+	@ManyToOne
+	@JoinColumn(name="Customer_id")
+	private Customer owner;
 
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
@@ -44,12 +44,12 @@ public class Pet {
 		this.name = name;
 	}
 
-	public long getOwnerId() {
-		return ownerId;
+	public Customer getOwner() {
+		return this.owner;
 	}
 
-	public void setOwnerId(long ownerId) {
-		this.ownerId = ownerId;
+	public void setOwner( Customer owner) {
+		this.owner = owner;
 	}
 
 	public LocalDate getBirthDate() {
