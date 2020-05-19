@@ -21,13 +21,13 @@ public class PetController {
     }
 
     @GetMapping("/{petId}")
-    public PetDTO getPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+    public Pet getPet(@PathVariable long petId) {
+        return petService.getPetById(petId);
     }
 
     @GetMapping
-    public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+    public List<Pet> getPets(){
+        return petService.getAllPets();
     }
 
     @GetMapping("/owner/{ownerId}")
