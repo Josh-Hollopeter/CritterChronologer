@@ -42,21 +42,23 @@ public class UserController {
 
     @PostMapping("/employee")
     public Employee saveEmployee(@RequestBody Employee employee) {
+        System.out.println(employee.getName());
         return employeeService.saveEmployee(employee);
     }
 
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public Employee getEmployee(@PathVariable long employeeId) {
         return employeeService.getEmployee(employeeId);
     }
 
     @PutMapping("/employee/{employeeId}")
-    public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+    public void setAvailability(@RequestBody Set<String> daysAvailable, @PathVariable long employeeId) {
+      Employee employee = employeeService.getEmployee(employeeId);
+      employeeService.saveEmployee(employee);
     }
 
     @GetMapping("/employee/availability")
-    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
+    public List<Employee> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         throw new UnsupportedOperationException();
     }
 
