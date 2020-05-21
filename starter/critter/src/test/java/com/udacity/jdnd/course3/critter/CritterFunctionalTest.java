@@ -42,6 +42,8 @@ public class CritterFunctionalTest {
 
     @Autowired
     private ScheduleController scheduleController;
+    @Autowired
+    private WeekController weekController;
 
     @Test
     public void testCreateCustomer(){
@@ -124,13 +126,12 @@ public class CritterFunctionalTest {
     public void testChangeEmployeeAvailability() {
         Employee employee = createEmployee();
         Employee emp1 = userController.saveEmployee(employee);
-        Assertions.assertNull(emp1.getDaysAvailable());
-
-        Set<String> availability = Sets.newHashSet(DayOfWeek.MONDAY.toString(), DayOfWeek.TUESDAY.toString(), DayOfWeek.WEDNESDAY.toString());
-        userController.setAvailability(availability, emp1.getId());
-
-        Employee emp2 = userController.getEmployee(emp1.getId());
-        Assertions.assertEquals(availability, emp2.getDaysAvailable());
+        Assertions.assertNull(emp1.getWeekDays());
+        weekController.saveWeek(initializeWeek());
+        Week week = weekController.getWeek(1);
+        week.setEmployee(emp1);
+        weekController.saveWeek(week);
+        Assertions.assertEquals(weekController.getWeek(1).getEmployees().get(0), emp1);
     }
 
     @Test
@@ -260,6 +261,12 @@ public class CritterFunctionalTest {
         pet.setName("TestPet");
         pet.setType("Cat");
         return pet;
+    }
+    private static Week initializeWeek() {
+        Week week = new Week();
+        week.setId(1);
+        week.setName("Monday");
+        return week;
     }
 
     private static EmployeeRequestDTO createEmployeeRequestDTO() {

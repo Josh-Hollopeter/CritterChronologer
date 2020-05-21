@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `CritterChronologer`.`Customer` ;
 CREATE TABLE IF NOT EXISTS `CritterChronologer`.`Customer` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
-  ` notes` VARCHAR(450) NULL,
+  `notes` VARCHAR(450) NULL,
   `phone_number` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -57,8 +57,9 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `CritterChronologer`.`Employee` ;
 
 CREATE TABLE IF NOT EXISTS `CritterChronologer`.`Employee` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
+  `availability` SET("Monday", "Tuesday", "Wednesday", "Thurday", "Friday", "Saturday", "Sunday") NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -106,7 +107,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `CritterChronologer`;
-INSERT INTO `CritterChronologer`.`Customer` (`id`, `name`, ` notes`, `phone_number`) VALUES (1, 'name', 'notes', '814-661-0397');
+INSERT INTO `CritterChronologer`.`Customer` (`id`, `name`, `notes`, `phone_number`) VALUES (1, 'name', 'notes', '814-661-0397');
 
 COMMIT;
 
@@ -126,7 +127,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `CritterChronologer`;
-INSERT INTO `CritterChronologer`.`Employee` (`id`, `name`) VALUES (1, 'name');
+INSERT INTO `CritterChronologer`.`Employee` (`id`, `name`, `availability`) VALUES (1, 'name', 'Monday,Tuesday');
 
 COMMIT;
 

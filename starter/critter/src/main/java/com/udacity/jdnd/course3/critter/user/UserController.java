@@ -25,6 +25,7 @@ public class UserController {
     @Autowired
     private PetService petService;
 
+
     @PostMapping("/customer")
     public Customer saveCustomer(@RequestBody Customer customer){
         return customerService.saveCustomer(customer);
@@ -52,14 +53,17 @@ public class UserController {
     }
 
     @PutMapping("/employee/{employeeId}")
-    public void setAvailability(@RequestBody Set<String> daysAvailable, @PathVariable long employeeId) {
+    public void setAvailability(@RequestBody String daysAvailable, @PathVariable long employeeId) {
       Employee employee = employeeService.getEmployee(employeeId);
       employeeService.saveEmployee(employee);
     }
 
     @GetMapping("/employee/availability")
-    public List<Employee> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+    public List<Employee> findEmployeesForService() {
+        return employeeService.getAllEmployee();
+
     }
+
+
 
 }

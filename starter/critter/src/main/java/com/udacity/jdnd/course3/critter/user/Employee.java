@@ -20,8 +20,11 @@ public class Employee {
     private HashSet<EmployeeSkill> skills;
 
 
-    @Column(name="availability")
-    private String daysAvailable;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="week_has_employee")
+    private Set<Week> weekDays;
+
+
 
     public long getId() {
         return id;
@@ -47,14 +50,12 @@ public class Employee {
         this.skills = skills;
     }
 
-    public Set<String> getDaysAvailable() {
-        return (null == daysAvailable) ?
-                Collections.emptySet() :
-                Arrays.stream(daysAvailable.split(",")).map(String::valueOf).collect(Collectors.toSet());
+    public Set<Week> getWeekDays() {
+        return weekDays;
     }
 
-
-    public void setDaysAvailable(String daysAvailable) {
-        this.daysAvailable = daysAvailable;
+    public void setWeekDays(Set<Week> week_days) {
+        this.weekDays = weekDays;
     }
+
 }
