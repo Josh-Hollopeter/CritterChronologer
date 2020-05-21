@@ -13,21 +13,21 @@ import java.util.List;
 public class ScheduleController {
 
     @Autowired
-    ScheduleRepository scheduleService;
+    ScheduleService scheduleService;
 
     @PostMapping
     public Schedule createSchedule(@RequestBody Schedule schedule) {
-        return scheduleService.saveAndFlush(schedule);
+        return scheduleService.saveSchedule(schedule);
     }
 
     @GetMapping
-    public List<ScheduleDTO> getAllSchedules() {
-        throw new UnsupportedOperationException();
+    public List<Schedule> getAllSchedules() {
+        return scheduleService.getAllSchedules();
     }
 
     @GetMapping("/pet/{petId}")
-    public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
+    public List<Schedule> getScheduleForPet(@PathVariable long petId) {
+        return scheduleService.getScheduleByPet(petId);
     }
 
     @GetMapping("/employee/{employeeId}")

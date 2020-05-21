@@ -6,6 +6,7 @@ import com.udacity.jdnd.course3.critter.pet.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetController;
 import com.udacity.jdnd.course3.critter.pet.PetDTO;
 import com.udacity.jdnd.course3.critter.pet.PetType;
+import com.udacity.jdnd.course3.critter.schedule.Schedule;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleController;
 import com.udacity.jdnd.course3.critter.schedule.ScheduleDTO;
 import com.udacity.jdnd.course3.critter.user.*;
@@ -191,12 +192,12 @@ public class CritterFunctionalTest {
     public void testSchedulePetsForServiceWithEmployee() {
         Employee employeeTemp = createEmployee();
         Week monday = weekController.getWeek(1);
-        Week tuedsay = weekController.getWeek(2);
-        Week wednesay = weekController.getWeek(3);
+        Week tuesday = weekController.getWeek(2);
+        Week wednesday = weekController.getWeek(3);
         Set<Week> availability = new HashSet<Week>();
         availability.add(monday);
-        availability.add(tuedsay);
-        availability.add(wednesay);
+        availability.add(tuesday);
+        availability.add(wednesday);
 
         employeeTemp.setWeekDays(availability);
         Employee employee = userController.saveEmployee(employeeTemp);
@@ -206,17 +207,20 @@ public class CritterFunctionalTest {
         Pet pet = petController.savePet(petTemp);
 
         LocalDate date = LocalDate.of(2019, 12, 25);
-        List<Long> petList = Lists.newArrayList(pet.getId());
-//        List<Long> employeeList = Lists.newArrayList(employee.getId());
-//        Set<EmployeeSkill> skillSet =  Sets.newHashSet(EmployeeSkill.PETTING);
+//        List<Pet> petList = Lists.newArrayList(pet);
+//        List<Employee> employeeList = Lists.newArrayList(employee);
 
-//        scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
-        ScheduleDTO scheduleDTO = scheduleController.getAllSchedules().get(0);
+        Schedule testSchedule = new Schedule();
+        testSchedule.setPet(pet);
+        testSchedule.setEmployee(employee);
+        testSchedule.setDay(date);
+       scheduleController.createSchedule(testSchedule);
+        Schedule schedule = scheduleController.getAllSchedules().get(0);
 
 //        Assertions.assertEquals(scheduleDTO.getActivities(), skillSet);
-//        Assertions.assertEquals(scheduleDTO.getDate(), date);
-//        Assertions.assertEquals(scheduleDTO.getEmployeeIds(), employeeList);
-//        Assertions.assertEquals(scheduleDTO.getPetIds(), petList);
+        Assertions.assertEquals(schedule.getDay(), date);
+        Assertions.assertEquals(schedule.getEmployee(), employee);
+        Assertions.assertEquals(schedule.getPet(), pet);
     }
 //
 //    @Test
