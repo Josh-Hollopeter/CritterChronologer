@@ -23,4 +23,8 @@ public class WeekService {
     public List<Week> getallWeek(){
         return weekRepository.findAll();
     }
+
+    public Week getWeekByName(String name){
+        return weekRepository.findAllByName(name);
+    }
 }

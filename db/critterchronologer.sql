@@ -59,7 +59,6 @@ DROP TABLE IF EXISTS `CritterChronologer`.`Employee` ;
 CREATE TABLE IF NOT EXISTS `CritterChronologer`.`Employee` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
-  `availability` SET("Monday", "Tuesday", "Wednesday", "Thurday", "Friday", "Saturday", "Sunday") NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -86,6 +85,43 @@ CREATE TABLE IF NOT EXISTS `CritterChronologer`.`Schedule` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Schedule_Employee1`
     FOREIGN KEY (`Employee_id`)
+    REFERENCES `CritterChronologer`.`Employee` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `CritterChronologer`.`Week`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `CritterChronologer`.`Week` ;
+
+CREATE TABLE IF NOT EXISTS `CritterChronologer`.`Week` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `CritterChronologer`.`Week_has_Employee`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `CritterChronologer`.`Week_has_Employee` ;
+
+CREATE TABLE IF NOT EXISTS `CritterChronologer`.`Week_has_Employee` (
+  `Week_days_id` INT NOT NULL,
+  `Employees_id` INT NOT NULL,
+  PRIMARY KEY (`Week_days_id`, `Employees_id`),
+  INDEX `fk_Week_has_Employee_Employee1_idx` (`Employees_id` ASC),
+  INDEX `fk_Week_has_Employee_Week1_idx` (`Week_days_id` ASC),
+  CONSTRAINT `fk_Week_has_Employee_Week1`
+    FOREIGN KEY (`Week_days_id`)
+    REFERENCES `CritterChronologer`.`Week` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Week_has_Employee_Employee1`
+    FOREIGN KEY (`Employees_id`)
     REFERENCES `CritterChronologer`.`Employee` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -127,7 +163,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `CritterChronologer`;
-INSERT INTO `CritterChronologer`.`Employee` (`id`, `name`, `availability`) VALUES (1, 'name', 'Monday,Tuesday');
+INSERT INTO `CritterChronologer`.`Employee` (`id`, `name`) VALUES (1, 'name');
 
 COMMIT;
 
@@ -138,6 +174,38 @@ COMMIT;
 START TRANSACTION;
 USE `CritterChronologer`;
 INSERT INTO `CritterChronologer`.`Schedule` (`id`, `day`, `customer_id`, `activity`, `Pet_id`, `Employee_id`) VALUES (1, '2020-12-25', 1, 'jumping', 1, 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `CritterChronologer`.`Week`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `CritterChronologer`;
+INSERT INTO `CritterChronologer`.`Week` (`id`, `name`) VALUES (1, 'Monday');
+INSERT INTO `CritterChronologer`.`Week` (`id`, `name`) VALUES (2, 'Tuesday');
+INSERT INTO `CritterChronologer`.`Week` (`id`, `name`) VALUES (3 , 'Wednesday');
+INSERT INTO `CritterChronologer`.`Week` (`id`, `name`) VALUES (4, 'Thursday');
+INSERT INTO `CritterChronologer`.`Week` (`id`, `name`) VALUES (5, 'Friday');
+INSERT INTO `CritterChronologer`.`Week` (`id`, `name`) VALUES (6, 'Saturday');
+INSERT INTO `CritterChronologer`.`Week` (`id`, `name`) VALUES (7, 'Sunday');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `CritterChronologer`.`Week_has_Employee`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `CritterChronologer`;
+INSERT INTO `CritterChronologer`.`Week_has_Employee` (`Week_days_id`, `Employees_id`) VALUES (1, 1);
+INSERT INTO `CritterChronologer`.`Week_has_Employee` (`Week_days_id`, `Employees_id`) VALUES (2, 1);
+INSERT INTO `CritterChronologer`.`Week_has_Employee` (`Week_days_id`, `Employees_id`) VALUES (3, 1);
+INSERT INTO `CritterChronologer`.`Week_has_Employee` (`Week_days_id`, `Employees_id`) VALUES (4, 1);
+INSERT INTO `CritterChronologer`.`Week_has_Employee` (`Week_days_id`, `Employees_id`) VALUES (5, 1);
+INSERT INTO `CritterChronologer`.`Week_has_Employee` (`Week_days_id`, `Employees_id`) VALUES (6, 1);
+INSERT INTO `CritterChronologer`.`Week_has_Employee` (`Week_days_id`, `Employees_id`) VALUES (7, 1);
 
 COMMIT;
 

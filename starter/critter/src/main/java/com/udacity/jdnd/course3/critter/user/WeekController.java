@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/week")
@@ -26,5 +27,9 @@ public class WeekController {
     @GetMapping()
     public List<Week> getAllWeek() {
         return weekService.getallWeek();
+    }
+
+    @GetMapping("/name")
+    public Week  getWeekByName(@RequestBody String name) { return weekService.getWeekByName(name);
     }
 }

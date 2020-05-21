@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Arrays;
@@ -10,8 +12,10 @@ import java.util.stream.Collectors;
 
 @Entity
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
 
     private String name;
@@ -55,7 +59,7 @@ public class Employee {
     }
 
     public void setWeekDays(Set<Week> week_days) {
-        this.weekDays = weekDays;
+        this.weekDays = week_days;
     }
 
 }

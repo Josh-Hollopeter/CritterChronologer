@@ -44,6 +44,9 @@ public class EmployeeService {
         employeeRepository.saveAndFlush(employee);
         return employee;
     }
+    public List<Employee> getEmployeesBySchedule(String name){
+        return employeeRepository.findAllByWeekDaysNameContains("%" + name + "%");
 
+    }
 
 }

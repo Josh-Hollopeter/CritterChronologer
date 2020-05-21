@@ -59,8 +59,8 @@ public class UserController {
     }
 
     @GetMapping("/employee/availability")
-    public List<Employee> findEmployeesForService() {
-        return employeeService.getAllEmployee();
+    public List<Employee> findEmployeesForService(@RequestBody String name) {
+        return employeeService.getEmployeesBySchedule(name);
 
     }
 
